@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
 
+
+    //더미 리스트 아이템
     String[] LIST_MENU = {"LIST1", "LIST2", "LIST3","LIST1", "LIST2", "LIST3","LIST1", "LIST2"
             , "LIST3","LIST1", "LIST2", "LIST3","LIST1", "LIST2", "LIST3","LIST1", "LIST2", "LIST3"} ;
 
@@ -21,13 +23,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         listView = (ListView) findViewById(R.id.listview);
 
+
+        //더미 데이터 Adapter세팅
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, LIST_MENU) ;
         listView.setAdapter(adapter);
 
-
+        //한바퀴 마다 색상 변경
         swipeRefreshLayout.setColorSchemeResources(
                 android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
@@ -35,25 +40,13 @@ public class MainActivity extends AppCompatActivity {
                 android.R.color.holo_red_light
         );
 
-
+        //refresh 리스너 등록
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //예시 3초간 돌기 위하여
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            //TODO 서버측에서 데이터 받아오기
-                            //새로고침 완료
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                // animation을 멈추려면, fasle로 설정
+                swipeRefreshLayout.setRefreshing(true);
             }
         });
-
     }
 }
